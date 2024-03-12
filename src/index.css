@@ -13,3 +13,11 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+.calendar-user-block {
+  height: auto;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  padding: 18px;
+}

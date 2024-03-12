@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./Calendar.styles.js";
 import { MockedCalendarData } from "../mockedData/index.jsx";
-import { CalendarContainer, TableCell, TableRow } from "./Calendar.styles.js";
-import { getDaysInMonth, getMonthData } from "./Helpers.js";
+import { Button, Container, TableCell } from "./Calendar.styles.js";
+import { getDaysInMonth } from "./Helpers.js";
+import { Link } from "react-router-dom";
 
-const MainPage = () => {
+const MainPage = ({ userData }) => {
   const { years, monthNames, weekDayNames } = MockedCalendarData;
 
   const [selectedYear, setSelectedYear] = useState();
-  console.log(selectedYear);
   const [selectedMonth, setSelectedMonth] = useState();
-  console.log("🚀 ~ MainPage ~ selectedMonth:", selectedMonth)
   const [selectedDate, setSelectedDate] = useState();
   const [date, setDate] = useState(new Date());
 
@@ -117,9 +116,25 @@ const MainPage = () => {
   ];
 
   return (
-    <CalendarContainer>
+    <Container>
+      <div className="calendar-user-block">
+        {userData ? (
+          <Link to={"/user"}>
+            <button>Авторизоваться</button>
+          </Link>
+        ) : (
+          <div>
+            <p>Имя пользователя</p>
+            <p>Фамилия</p>
+            <img src="" alt="" />
+            <Link to={"/user"}>
+              <button>Сменить пользователя</button>
+            </Link>
+          </div>
+        )}
+      </div>
       <header>
-        <button onClick={handlePrevMonthButtonClick}>{"<"}</button>
+        <Button onClick={handlePrevMonthButtonClick}>{"<"}</Button>
         <select onChange={handleSelectMonth}>
           {monthNames.map((name, index) => (
             <option key={name} value={index}>
@@ -134,7 +149,7 @@ const MainPage = () => {
             </option>
           ))}
         </select>
-        <button onClick={handleNextMonthButtonClick}>{">"}</button>
+        <Button onClick={handleNextMonthButtonClick}>{">"}</Button>
       </header>
       <table>
         <thead>
@@ -146,7 +161,7 @@ const MainPage = () => {
         </thead>
         <tbody>
           {monthData.map((week, index) => (
-            <TableRow key={index}>
+            <tr key={index}>
               {week.map((date, index) =>
                 date ? (
                   <TableCell key={index} onClick={() => handleDayClick(date)}>
@@ -156,11 +171,11 @@ const MainPage = () => {
                   <TableCell key={index} />
                 )
               )}
-            </TableRow>
+            </tr>
           ))}
         </tbody>
       </table>
-    </CalendarContainer>
+    </Container>
   );
 };
 
