@@ -1,6 +1,11 @@
 import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
   body {
   margin: 0;
   padding: 0;
@@ -19,13 +24,11 @@ export const GlobalStyle = createGlobalStyle`
 
 button, select {
     height: 2em;
-    font-size: 1rem;
     background-color: #fff;
     color: #363636;
     border: 1px solid #dbdbdb;
     border-radius: 4px;
     cursor: pointer;
-    margin: 5px;
 }
 
 button:focus, select:focus {
@@ -50,5 +53,9 @@ table {
 th, td {
     padding: 10px;
     text-align: center;
+}
+a{
+  text-decoration: none;
+  text-align: center;
 }
 `;
