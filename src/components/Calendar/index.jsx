@@ -1,17 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Calendar.styles.js";
 import { MockedCalendarData } from "../mockedData/index.jsx";
-import { Button, Container, TableCell } from "./Calendar.styles.js";
+import {
+  BtnContainer,
+  Button,
+  Container,
+  TableCell,
+  UserChangeButton,
+  UserDataUI,
+  UserSignOut,
+} from "./Calendar.styles.js";
 import { getDaysInMonth } from "./Helpers.js";
 import { Link } from "react-router-dom";
 
-const MainPage = ({ userData }) => {
+const MainPage = ({ userData, setUserData }) => {
   const { years, monthNames, weekDayNames } = MockedCalendarData;
 
   const [selectedYear, setSelectedYear] = useState();
   const [selectedMonth, setSelectedMonth] = useState();
   const [selectedDate, setSelectedDate] = useState();
   const [date, setDate] = useState(new Date());
+
+  const [storedUserData, setStoredUserData] = useState({});
+  console.log("🚀 ~ MainPage ~ storedUserData:", storedUserData);
 
   const daysArray = getDaysInMonth(selectedYear, selectedMonth);
 
@@ -115,22 +126,35 @@ const MainPage = ({ userData }) => {
     ],
   ];
 
+  const handleUnlogin = () => {
+    localStorage.clear("userData");
+    setStoredUserData(null);
+    setUserData({ firstName: "", lastName: "" });
+  };
+
+  useEffect(() => {
+    const storedUserData = JSON.parse(localStorage.getItem("userData"));
+    setStoredUserData(storedUserData);
+  }, []);
+
   return (
     <Container>
       <div className="calendar-user-block">
-        {userData ? (
+        {!storedUserData ? (
           <Link to={"/user"}>
-            <button>Авторизоваться</button>
+            <UserChangeButton>Авторизоваться</UserChangeButton>
           </Link>
         ) : (
-          <div>
-            <p>Имя пользователя</p>
-            <p>Фамилия</p>
-            <img src="" alt="" />
-            <Link to={"/user"}>
-              <button>Сменить пользователя</button>
-            </Link>
-          </div>
+          <UserDataUI>
+            <p>{storedUserData.firstName}</p>
+            <p>{storedUserData.lastName}</p>
+            <BtnContainer>
+              <Link to={"/user"}>
+                <UserChangeButton>Сменить пользователя</UserChangeButton>
+              </Link>
+              <UserSignOut onClick={handleUnlogin}>Выйти</UserSignOut>
+            </BtnContainer>
+          </UserDataUI>
         )}
       </div>
       <header>

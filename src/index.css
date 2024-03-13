@@ -15,9 +15,9 @@ body {
 }
 
 .calendar-user-block {
-  height: auto;
+  height: 100%;
   width: 100%;
   display: flex;
-  justify-content: flex-end;
-  padding: 18px;
+  align-items: center;
+  justify-content: center;
 }
