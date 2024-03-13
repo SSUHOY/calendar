@@ -9,7 +9,10 @@ const AppRoutes = () => {
 
   return (
     <Routes>
-      <Route path="/" element={<Main userData={userData} />} />
+      <Route
+        path="/"
+        element={<Main userData={userData} setUserData={setUserData} />}
+      />
       <Route
         path="/user"
         element={<UserPage userData={userData} setUserData={setUserData} />}

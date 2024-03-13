@@ -1,8 +1,8 @@
 import React from "react";
 import MainPage from "../../components/Calendar";
 
-const Main = ({ userData }) => {
-  return <MainPage userData={userData} />;
+const Main = ({ userData, setUserData }) => {
+  return <MainPage userData={userData} setUserData={setUserData} />;
 };
 
 export default Main;

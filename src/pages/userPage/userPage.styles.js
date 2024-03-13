@@ -32,11 +32,11 @@ export const FormField = styled.div`
 `;
 
 export const ButtonSubmit = styled.button`
-  width: 120px;
+  width: 140px;
   height: 30px;
   text-align: center;
   margin-top: 24px;
-  background-color: ${(props) => (props.disabled ? "#e0e0e0" : "#62B5D8")};
+  background-color: ${(props) => (props.disabled ? "#e0e0e0" : "#007ACC")};
   color: ${(props) => (props.disabled ? "gray" : "#ffffff")};
   cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
   opacity: ${(props) => (props.disabled ? "0.5" : "1")};
@@ -47,11 +47,11 @@ export const ButtonSubmit = styled.button`
 `;
 
 export const ButtonBackToMain = styled.button`
-  width: 120px;
+  width: 140px;
   height: 30px;
   text-align: center;
   margin-top: 4px;
-  background-color: #62b5d8;
+  background-color: #007acc;
   color: #ffffff;
   &:hover {
     background-color: #5aa3c2;

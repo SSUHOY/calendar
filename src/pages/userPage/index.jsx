@@ -13,7 +13,6 @@ import {
 import { Link } from "react-router-dom";
 
 const UserPage = ({ setUserData, userData }) => {
-  console.log(userData);
   const [error, setError] = useState("");
   const [isSave, setIsSaved] = useState(false);
 
@@ -77,7 +76,9 @@ const UserPage = ({ setUserData, userData }) => {
                   <ButtonBackToMain>К календарю</ButtonBackToMain>
                 </Link>
               ) : (
-                ""
+                <Link to="/">
+                  <ButtonBackToMain>Назад</ButtonBackToMain>
+                </Link>
               )}
             </FormField>
           </FormContainer>
