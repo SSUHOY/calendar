@@ -11,6 +11,7 @@ export const UserPageContainer = styled.div`
 
 export const UserPageTitle = styled.h4`
   text-align: center;
+  margin-top: 12px;
   font-size: 14px;
 `;
 
@@ -27,41 +28,20 @@ export const FormContainer = styled.form`
 
 export const FormField = styled.div`
   display: flex;
+  gap: 4px;
   flex-direction: column;
   padding-bottom: 10px;
-`;
-
-export const ButtonSubmit = styled.button`
-  width: 140px;
-  height: 30px;
-  text-align: center;
-  margin-top: 24px;
-  background-color: ${(props) => (props.disabled ? "#e0e0e0" : "#007ACC")};
-  color: ${(props) => (props.disabled ? "gray" : "#ffffff")};
-  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
-  opacity: ${(props) => (props.disabled ? "0.5" : "1")};
-  &:hover {
-    background-color: ${(props) => (props.disabled ? "#e0e0e0" : "#62B5D8")};
-    color: ${(props) => (props.disabled ? "gray" : "#ffffff")};
+  label {
+    font-size: 14px;
   }
 `;
 
-export const ButtonBackToMain = styled.button`
-  width: 140px;
-  height: 30px;
+export const IsSaved = styled.div`
   text-align: center;
-  margin-top: 4px;
-  background-color: #007acc;
-  color: #ffffff;
-  &:hover {
-    background-color: #5aa3c2;
-    color: #ffffff;
-  }
 `;
 
 export const Error = styled.p`
   font-size: 10px;
   color: red;
   margin: 0;
-  position: absolute;
 `;

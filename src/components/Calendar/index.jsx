@@ -8,23 +8,25 @@ import {
   Header,
   TableCell,
   TableContainer,
-  UserChangeButton,
   UserDataUI,
-  UserSignOut,
 } from "./Calendar.styles.js";
 import { Link } from "react-router-dom";
 import * as calendar from "./calendar.js";
+import {
+  CustomButton,
+  SignInButton,
+  SignOutButton,
+} from "../Button/CustomButtons.jsx";
+import { UserChangeButton } from "../Button/Button.styles.js";
 
 const MainPage = ({ setUserData }) => {
   const { monthNames, weekDayNames, years } = MockedCalendarData;
   const today = new Date();
-  console.log(today);
 
   const [date, setDate] = useState(new Date());
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [selectedDate, setSelectedDate] = useState("");
-  console.log("🚀 ~ MainPage ~ selectedDate:", selectedDate);
 
   const [storedUserData, setStoredUserData] = useState({});
 
@@ -107,7 +109,7 @@ const MainPage = ({ setUserData }) => {
         {!storedUserData ? (
           <UserDataUI>
             <Link to={"/user"}>
-              <UserChangeButton>Авторизоваться</UserChangeButton>
+              <CustomButton width="200px">Авторизоваться</CustomButton>
             </Link>
           </UserDataUI>
         ) : (
@@ -116,36 +118,46 @@ const MainPage = ({ setUserData }) => {
             <p>{storedUserData.lastName}</p>
             <BtnContainer>
               <Link to={"/user"}>
-                <UserChangeButton>Сменить пользователя</UserChangeButton>
+                <CustomButton>Сменить пользователя</CustomButton>
               </Link>
-              <UserSignOut onClick={handleSignOut}>Выйти</UserSignOut>
+              <CustomButton margin-left="20px" onClick={handleSignOut}>
+                Выйти
+              </CustomButton>
             </BtnContainer>
           </UserDataUI>
         )}
       </div>
       <Header>
-        <Button onClick={handlePrevMonthButtonClick}>{"<"}</Button>
-        <select
-          onChange={handleSelectMonth}
-          defaultValue={selectedMonth}
-          value={selectedMonth}>
+        <CustomButton
+          onClick={handlePrevMonthButtonClick}
+          width="35px"
+          height="26px"
+          bgc="white"
+          color="black">
+          {"<"}
+        </CustomButton>
+        <select onChange={handleSelectMonth} value={selectedMonth}>
           {monthNames.map((name, index) => (
             <option key={index} value={index}>
               {name}
             </option>
           ))}
         </select>
-        <select
-          onChange={handleSelectYear}
-          defaultValue={selectedYear}
-          value={selectedYear}>
+        <select onChange={handleSelectYear} value={selectedYear}>
           {years.map((year, index) => (
             <option key={index} value={year}>
               {year}
             </option>
           ))}
         </select>
-        <Button onClick={handleNextMonthButtonClick}>{">"}</Button>
+        <CustomButton
+          onClick={handleNextMonthButtonClick}
+          width="35px"
+          height="26px"
+          bgc="white"
+          color="black">
+          {">"}
+        </CustomButton>
       </Header>
       <TableContainer>
         <table className="calendar-table">
