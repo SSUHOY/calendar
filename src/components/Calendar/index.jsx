@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Calendar.styles.js";
 import { MockedCalendarData } from "../mockedData/index.jsx";
 import { Button, Container, TableCell } from "./Calendar.styles.js";
@@ -12,6 +12,9 @@ const MainPage = ({ userData }) => {
   const [selectedMonth, setSelectedMonth] = useState();
   const [selectedDate, setSelectedDate] = useState();
   const [date, setDate] = useState(new Date());
+
+  const [storedUserData, setStoredUserData] = useState({});
+  console.log("🚀 ~ MainPage ~ storedUserData:", storedUserData);
 
   const daysArray = getDaysInMonth(selectedYear, selectedMonth);
 
@@ -115,20 +118,29 @@ const MainPage = ({ userData }) => {
     ],
   ];
 
+  const handleClearStore = () => {
+    localStorage.clear("userData");
+  };
+
+  useEffect(() => {
+    const storedUserData = JSON.parse(localStorage.getItem("userData"));
+    setStoredUserData(storedUserData);
+  }, []);
+
   return (
     <Container>
       <div className="calendar-user-block">
-        {userData ? (
+        {!storedUserData ? (
           <Link to={"/user"}>
             <button>Авторизоваться</button>
           </Link>
         ) : (
           <div>
-            <p>Имя пользователя</p>
-            <p>Фамилия</p>
+            <p>{storedUserData.firstName}</p>
+            <p>{storedUserData.lastName}</p>
             <img src="" alt="" />
             <Link to={"/user"}>
-              <button>Сменить пользователя</button>
+              <button onClick={handleClearStore}>Сменить пользователя</button>
             </Link>
           </div>
         )}

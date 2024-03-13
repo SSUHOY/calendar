@@ -5,12 +5,15 @@ import NotFound from "./pages/notFound";
 import { useState } from "react";
 
 const AppRoutes = () => {
-  const [userData, setUserData] = useState();
+  const [userData, setUserData] = useState({ firstName: "", lastName: "" });
 
   return (
     <Routes>
-      <Route path="/" element={<Main userData={userData}/>} />
-      <Route path="/user" element={<UserPage setUserData={setUserData}/>} />
+      <Route path="/" element={<Main userData={userData} />} />
+      <Route
+        path="/user"
+        element={<UserPage userData={userData} setUserData={setUserData} />}
+      />
       <Route path="*" element={<NotFound />} />
       <Route />
     </Routes>
