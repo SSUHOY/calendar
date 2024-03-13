@@ -21,3 +21,14 @@ body {
   align-items: center;
   justify-content: center;
 }
+.calendar-table {
+  height: 338px;
+}
+
+.active {
+  background-color: #2999e4;
+  color: white;
+}
+.selected {
+  background-color: #ebebeb;
+}

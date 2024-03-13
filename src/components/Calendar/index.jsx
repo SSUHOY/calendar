@@ -5,26 +5,31 @@ import {
   BtnContainer,
   Button,
   Container,
+  Header,
   TableCell,
+  TableContainer,
   UserChangeButton,
   UserDataUI,
   UserSignOut,
 } from "./Calendar.styles.js";
-import { getDaysInMonth } from "./Helpers.js";
 import { Link } from "react-router-dom";
+import * as calendar from "./calendar.js";
 
-const MainPage = ({ userData, setUserData }) => {
-  const { years, monthNames, weekDayNames } = MockedCalendarData;
+const MainPage = ({ setUserData }) => {
+  const { monthNames, weekDayNames, years } = MockedCalendarData;
+  const today = new Date();
+  console.log(today);
 
-  const [selectedYear, setSelectedYear] = useState();
-  const [selectedMonth, setSelectedMonth] = useState();
-  const [selectedDate, setSelectedDate] = useState();
   const [date, setDate] = useState(new Date());
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const [selectedDate, setSelectedDate] = useState("");
+  console.log("🚀 ~ MainPage ~ selectedDate:", selectedDate);
 
   const [storedUserData, setStoredUserData] = useState({});
-  console.log("🚀 ~ MainPage ~ storedUserData:", storedUserData);
 
-  const daysArray = getDaysInMonth(selectedYear, selectedMonth);
+  // get monthData on component mount
+  const monthData = calendar.getMonthData(selectedYear, selectedMonth);
 
   const handlePrevMonthButtonClick = () => {
     const currentMonth = date.getMonth();
@@ -37,11 +42,13 @@ const MainPage = ({ userData, setUserData }) => {
       newMonth = 11;
       newYear = currentYear - 1;
     } else {
-      newMonth = currentMonth - 1;
       newYear = currentYear;
+      newMonth = currentMonth - 1;
     }
 
     const prevDate = new Date(newYear, newMonth);
+    setSelectedYear(newYear);
+    setSelectedMonth(newMonth);
     setDate(prevDate);
   };
 
@@ -59,74 +66,31 @@ const MainPage = ({ userData, setUserData }) => {
       newMonth = currentMonth + 1;
       newYear = currentYear;
     }
-
     const nextDate = new Date(newYear, newMonth);
+    setSelectedYear(newYear);
+    setSelectedMonth(newMonth);
     setDate(nextDate);
   };
 
   const handleDayClick = (date) => {
     setSelectedDate(date);
   };
-  const handleSelectYear = (event) => {
-    setSelectedYear(event.target.value);
-    const selectedDateYear = new Date(selectedYear, selectedMonth);
-    setDate(selectedDateYear);
-  };
   const handleSelectMonth = (event) => {
     setSelectedMonth(event.target.value);
     const selectedDateMonth = new Date(selectedYear, selectedMonth);
     setDate(selectedDateMonth);
   };
+  const handleSelectYear = (event) => {
+    setSelectedYear(event.target.value);
+    const selectedDateYear = new Date(selectedYear, selectedMonth);
+    setDate(selectedDateYear);
+  };
 
-  const monthData = [
-    [
-      undefined,
-      undefined,
-      new Date(),
-      new Date(),
-      new Date(),
-      new Date(),
-      new Date(),
-    ],
-    [
-      new Date(),
-      new Date(),
-      new Date(),
-      new Date(),
-      new Date(),
-      new Date(),
-      new Date(),
-    ],
-    [
-      new Date(),
-      new Date(),
-      new Date(),
-      new Date(),
-      new Date(),
-      new Date(),
-      new Date(),
-    ],
-    [
-      new Date(),
-      new Date(),
-      new Date(),
-      new Date(),
-      new Date(),
-      new Date(),
-      new Date(),
-    ],
-    [
-      new Date(),
-      new Date(),
-      new Date(),
-      new Date(),
-      undefined,
-      undefined,
-      undefined,
-    ],
-  ];
+  useEffect(() => {
+    setDate(new Date(selectedYear, selectedMonth));
+  }, [selectedMonth, selectedYear]);
 
-  const handleUnlogin = () => {
+  const handleSignOut = () => {
     localStorage.clear("userData");
     setStoredUserData(null);
     setUserData({ firstName: "", lastName: "" });
@@ -141,9 +105,11 @@ const MainPage = ({ userData, setUserData }) => {
     <Container>
       <div className="calendar-user-block">
         {!storedUserData ? (
-          <Link to={"/user"}>
-            <UserChangeButton>Авторизоваться</UserChangeButton>
-          </Link>
+          <UserDataUI>
+            <Link to={"/user"}>
+              <UserChangeButton>Авторизоваться</UserChangeButton>
+            </Link>
+          </UserDataUI>
         ) : (
           <UserDataUI>
             <p>{storedUserData.firstName}</p>
@@ -152,53 +118,70 @@ const MainPage = ({ userData, setUserData }) => {
               <Link to={"/user"}>
                 <UserChangeButton>Сменить пользователя</UserChangeButton>
               </Link>
-              <UserSignOut onClick={handleUnlogin}>Выйти</UserSignOut>
+              <UserSignOut onClick={handleSignOut}>Выйти</UserSignOut>
             </BtnContainer>
           </UserDataUI>
         )}
       </div>
-      <header>
+      <Header>
         <Button onClick={handlePrevMonthButtonClick}>{"<"}</Button>
-        <select onChange={handleSelectMonth}>
+        <select
+          onChange={handleSelectMonth}
+          defaultValue={selectedMonth}
+          value={selectedMonth}>
           {monthNames.map((name, index) => (
-            <option key={name} value={index}>
+            <option key={index} value={index}>
               {name}
             </option>
           ))}
         </select>
-        <select value={selectedYear} onChange={handleSelectYear}>
+        <select
+          onChange={handleSelectYear}
+          defaultValue={selectedYear}
+          value={selectedYear}>
           {years.map((year, index) => (
-            <option key={year} value={index}>
+            <option key={index} value={year}>
               {year}
             </option>
           ))}
         </select>
         <Button onClick={handleNextMonthButtonClick}>{">"}</Button>
-      </header>
-      <table>
-        <thead>
-          <tr>
-            {weekDayNames.map((name) => (
-              <th key={name}>{name}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {monthData.map((week, index) => (
-            <tr key={index}>
-              {week.map((date, index) =>
-                date ? (
-                  <TableCell key={index} onClick={() => handleDayClick(date)}>
-                    {date.getDate()}
-                  </TableCell>
-                ) : (
-                  <TableCell key={index} />
-                )
-              )}
+      </Header>
+      <TableContainer>
+        <table className="calendar-table">
+          <thead>
+            <tr>
+              {weekDayNames.map((name) => (
+                <th key={name}>{name}</th>
+              ))}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {monthData.map((week, index) => (
+              <tr key={index}>
+                {week.map((date, index) =>
+                  date ? (
+                    <TableCell
+                      key={index}
+                      className={
+                        calendar.areEqual(date, today)
+                          ? "active"
+                          : "" || calendar.areEqual(date, selectedDate)
+                          ? "selected"
+                          : ""
+                      }
+                      onClick={() => handleDayClick(date)}>
+                      {date.getDate()}
+                    </TableCell>
+                  ) : (
+                    <TableCell key={index} />
+                  )
+                )}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </TableContainer>
     </Container>
   );
 };
