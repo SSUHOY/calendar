@@ -8,6 +8,7 @@ const NotFound = () => {
     <>
       <Container>
         <div>Oooops. Page not found</div>
+        <br />
         <Link to="/">
           <CustomButton>На главную</CustomButton>
         </Link>

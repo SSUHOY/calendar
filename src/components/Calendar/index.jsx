@@ -3,7 +3,6 @@ import "./Calendar.styles.js";
 import { MockedCalendarData } from "../mockedData/index.jsx";
 import {
   BtnContainer,
-  Button,
   Container,
   Header,
   TableCell,
@@ -12,12 +11,7 @@ import {
 } from "./Calendar.styles.js";
 import { Link } from "react-router-dom";
 import * as calendar from "./calendar.js";
-import {
-  CustomButton,
-  SignInButton,
-  SignOutButton,
-} from "../Button/CustomButtons.jsx";
-import { UserChangeButton } from "../Button/Button.styles.js";
+import { CustomButton } from "../Button/CustomButtons.jsx";
 
 const MainPage = ({ setUserData }) => {
   const { monthNames, weekDayNames, years } = MockedCalendarData;
