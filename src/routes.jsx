@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router";
-import Main from "./pages/mainPage";
 import UserPage from "./pages/userPage";
 import NotFound from "./pages/notFound";
 import { useState } from "react";
+import MainPage from "./components/Calendar";
 
 const AppRoutes = () => {
   const [userData, setUserData] = useState({ firstName: "", lastName: "" });
@@ -11,7 +11,7 @@ const AppRoutes = () => {
     <Routes>
       <Route
         path="/"
-        element={<Main userData={userData} setUserData={setUserData} />}
+        element={<MainPage userData={userData} setUserData={setUserData} />}
       />
       <Route
         path="/user"
