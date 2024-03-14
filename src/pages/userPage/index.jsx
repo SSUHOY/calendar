@@ -28,7 +28,7 @@ const UserPage = ({ setUserData, userData }) => {
       localStorage.setItem("userData", JSON.stringify(userData));
       setIsSaved(true);
     } else {
-      setError("Ошибка сохранения данных");
+      setError("Ошибка сохранения данных, не все поля заполнены");
       setIsSaved(false);
     }
     event.preventDefault();
