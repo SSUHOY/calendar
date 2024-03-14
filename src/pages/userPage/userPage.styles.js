@@ -43,5 +43,7 @@ export const IsSaved = styled.div`
 export const Error = styled.p`
   font-size: 10px;
   color: red;
-  margin: 0;
+  width: 143px;
+  text-align: center;
+  margin: 0px;
 `;
